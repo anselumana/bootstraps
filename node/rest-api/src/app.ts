@@ -12,12 +12,19 @@ import winston from 'winston';
 
 
 const main = async () => {
+  const prefix = "[init]";
+
   const app: express.Application = express();
 
   const server: http.Server = http.createServer(app);
 
   // app initialization
-  await init();
+  try {
+    await init();
+  } catch (err: any) {
+    console.error(`${prefix} ${err}`);
+    process.exit(1);
+  }
 
   app.use(express.json());
   app.use(cors());;
@@ -47,7 +54,7 @@ const main = async () => {
   const port = AppConfig.current().port;
 
   server.listen(port, () => {
-    console.log(`server listening on port ${port}`);
+    console.log(`${prefix} server listening on port ${port}`);
   });
 }
 

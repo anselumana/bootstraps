@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from "path";
 
-
 export class AppConfig {
   private static currentConfig: Configuration;
 
@@ -21,7 +20,7 @@ export class AppConfig {
 
   private static getConfig() {
       // get config file based on environment
-      const env = process.env.ENV?.toLowerCase();
+      const env = process.env.NODE_ENV?.toLowerCase();
       const configFile = `${env}.config.json`;
       const json = fs.readFileSync(path.join(process.cwd(), "src", configFile), "utf8");
       const config = JSON.parse(json);
