@@ -37,7 +37,6 @@ const main = async () => {
       winston.format.colorize({ all: true })
     ),
     meta: false,
-    // meta: process.env.env === "dev" // when not debugging, log requests as one-liners
   }));
 
   // routes registration
