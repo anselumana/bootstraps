@@ -18,10 +18,11 @@ const main = async () => {
 
   const server: http.Server = http.createServer(app);
 
-  // app initialization
   try {
+    // app initialization
     await init();
-  } catch (err: any) {
+  }
+  catch (err: any) {
     console.error(`${prefix} ${err}`);
     process.exit(1);
   }
