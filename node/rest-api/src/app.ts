@@ -29,6 +29,7 @@ const main = async () => {
       winston.format.prettyPrint(),
       winston.format.colorize({ all: true })
     ),
+    meta: false,
     // meta: process.env.env === "dev" // when not debugging, log requests as one-liners
   }));
 
