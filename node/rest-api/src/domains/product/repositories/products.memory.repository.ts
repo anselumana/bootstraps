@@ -27,6 +27,7 @@ export class ProductsMemoryRepository implements IRepository<Product> {
       ...entity,
       id: id,
     })
+    this.increment();
     return id;
   }
   public async update(id: string, entity: Product) {
