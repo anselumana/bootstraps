@@ -13,5 +13,10 @@ export const postProductZod = productZod.omit({
   id: true
 });
 
+// put validation model
+export const putProductZod = productZod.omit({
+  id: true
+});
+
 // actual product type
 export type Product = z.infer<typeof productZod>;

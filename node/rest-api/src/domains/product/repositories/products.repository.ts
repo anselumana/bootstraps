@@ -11,13 +11,30 @@ export class ProductsRepository implements IRepository<Product> {
   public async list() {
     return await this.collection.find().toArray();
   };
+
   public async get(id: string) {
-    return await this.collection.findOne({ _id: new ObjectId(id) });
+    return await this.collection.findOne(this.getIdFilter(id));
   };
+
   public async create(entity: Product) {
     const { insertedId } = await this.collection.insertOne(entity);
     return insertedId.toString();
   };
-  update!: (id: string, entity: Product) => Promise<Product>;
-  delete!: (id: string) => Promise<boolean>;
+
+  public async update(id: string, entity: Product) {
+    const res = await this.collection.findOneAndUpdate(
+      this.getIdFilter(id),
+      { $set: entity },
+      { returnDocument: "after" });
+    return res.ok === 1 ? res.value : null;
+  };
+  
+  public async delete(id: string) {
+    const res = await this.collection.deleteOne(this.getIdFilter(id));
+    return res.deletedCount === 1;
+  };
+
+  private getIdFilter(id: string) {
+    return { _id: new ObjectId(id) };
+  }
 }
