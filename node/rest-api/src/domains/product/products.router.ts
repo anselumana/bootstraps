@@ -12,7 +12,7 @@ const productsRouter = () => {
       controller.list.bind(controller),
     )
     .post(
-      middleware.validatePostProduct.bind(middleware),
+      middleware.validatePost.bind(middleware),
       controller.post.bind(controller),
     )
   router.route(`/:id`)
@@ -20,7 +20,7 @@ const productsRouter = () => {
       controller.get.bind(controller)
     )
     .put(
-      middleware.validateUpdateProduct.bind(middleware),
+      middleware.validateUpdate.bind(middleware),
       controller.put.bind(controller),
     )
     .delete(

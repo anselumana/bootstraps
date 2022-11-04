@@ -1,10 +1,17 @@
-import * as z from "zod";
+import { z } from "zod";
 
-const ProductZod = z.object({
+// base model
+export const productZod = z.object({
   id: z.string(),
   name: z.string(),
   price: z.number(),
   inStock: z.boolean(),
 });
 
-export type Product = z.infer<typeof ProductZod>;
+// post validation model
+export const postProductZod = productZod.omit({
+  id: true
+});
+
+// actual product type
+export type Product = z.infer<typeof productZod>;

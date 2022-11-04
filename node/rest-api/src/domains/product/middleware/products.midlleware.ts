@@ -1,39 +1,21 @@
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
+import { validate } from '../../../common/validation/validation';
+import { postProductZod } from '../models/product.model';
 
 export class ProductsMiddleware {
-  public async validatePostProduct(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const msg = await validatePostProductInternal(req.body);
-    if (msg) {
-      res.status(400).json({ message: msg });
-    }
-    else {
+  public async validatePost(req: Request, res: Response, next: NextFunction) {
+    const result = validate(req.body, postProductZod);
+    if (result.success) {
       next();
     }
-  }
-  
-  public async validateUpdateProduct(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const msg = await validateUpdateProductInternal(req.body);
-    if (msg) {
-      res.status(400).json({ message: msg });
-    }
     else {
-      next();
+      res.status(422).json({ errors: result.errors })
     }
   }
-}
 
-const validatePostProductInternal = (body: any) => {
-  // add needed validation rules
-  if (!body) {
-    return "body is empty";
+  public async validateUpdate(req: Request, res: Response, next: NextFunction) {
+    // const msg = await this._validateUpdate(req.body);
+    // msg ? res.status(400).json({ message: msg }) : next();
   }
-  return null;
-}
-
-const validateUpdateProductInternal = (body: any) => {
-  // add needed validation rules
-  if (!body) {
-    return "body is empty";
-  }
-  return null;
 }

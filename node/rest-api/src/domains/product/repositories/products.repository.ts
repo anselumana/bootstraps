@@ -6,7 +6,7 @@ import { Product } from "../models/product.model";
 
 export class ProductsRepository implements IRepository<Product> {
   // products collection
-  private collection = db.db().collection<Product>("product");
+  private collection = db.db().collection<Product>("products");
 
   public async list() {
     return await this.collection.find().toArray();
