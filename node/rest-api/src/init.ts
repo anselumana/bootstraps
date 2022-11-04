@@ -1,5 +1,6 @@
 import config from "./common/config/config";
 import * as dotenv from 'dotenv';
+import db from "./common/db/db";
 
 
 const loadEnvironment = () => {
@@ -18,4 +19,5 @@ const loadEnvironment = () => {
 export default async function init() {
   loadEnvironment();
   config.load();
+  await db.init();
 }
