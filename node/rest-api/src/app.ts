@@ -33,8 +33,10 @@ const main = async () => {
   app.use("/products", productsRouter());
   
   // ping route for debug
-  app.get('/', (req: express.Request, res: express.Response) => {
-    res.status(200).send("ping ok");
+  app.get('/ping', (req: express.Request, res: express.Response) => {
+    res.status(200).json({
+      message: "pong",
+    });
   });
 
   // error handling middleware

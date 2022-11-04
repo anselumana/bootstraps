@@ -1,4 +1,4 @@
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { formatRes } from '../../../common/utils/http.utils';
 import { ProductsService } from '../services/products.service';
 
@@ -9,7 +9,7 @@ export class ProductsController {
     this.productsService = new ProductsService();
   }
 
-  async list(req: express.Request, res: express.Response, next: express.NextFunction) {
+  async list(req: Request, res: Response, next: NextFunction) {
     try {
       const products = await this.productsService.list();
       res.status(200).json(formatRes(products));
@@ -18,7 +18,7 @@ export class ProductsController {
     }
   }
 
-  async get(req: express.Request, res: express.Response, next: express.NextFunction) {
+  async get(req: Request, res: Response, next: NextFunction) {
     try {
       const product = await this.productsService.get(req.params.id);
       if (product) {
@@ -31,7 +31,7 @@ export class ProductsController {
     }
   }
 
-  async post(req: express.Request, res: express.Response, next: express.NextFunction) {
+  async post(req: Request, res: Response, next: NextFunction) {
     try {
       const productId = await this.productsService.create(req.body);
       res.status(201).json(formatRes({ id: productId }));
@@ -40,7 +40,7 @@ export class ProductsController {
     }
   }
 
-  async put(req: express.Request, res: express.Response, next: express.NextFunction) {
+  async put(req: Request, res: Response, next: NextFunction) {
     try {
       const updatedProduct = await this.productsService.update(req.params.id, req.body);
       if (updatedProduct) {
@@ -53,7 +53,7 @@ export class ProductsController {
     }
   }
 
-  async delete(req: express.Request, res: express.Response, next: express.NextFunction) {
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const ok = await this.productsService.delete(req.params.id);
       if (ok) {

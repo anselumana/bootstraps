@@ -1,5 +1,5 @@
 import { IRepository } from "../../../common/interfaces/repository.interface";
-import { Product } from "../../../common/model/model";
+import { Product } from "../models/product.model";
 
 
 export class ProductsMemoryRepository implements IRepository<Product> {
