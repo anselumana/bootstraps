@@ -1,4 +1,5 @@
 import express from "express";
+import CommonMiddleware from "../../common/middleware/common.middleware";
 import { ProductsController } from "./controllers/products.controller";
 import { ProductsMiddleware } from "./middleware/products.midlleware";
 
@@ -6,6 +7,7 @@ import { ProductsMiddleware } from "./middleware/products.midlleware";
 const productsRouter = () => {
   const controller = new ProductsController();
   const middleware = new ProductsMiddleware();
+  const commonMiddleware = new CommonMiddleware();
   const router = express.Router();
   router.route("/")
     .get(
@@ -16,6 +18,9 @@ const productsRouter = () => {
       controller.post.bind(controller),
     )
   router.route(`/:id`)
+    .all(
+      commonMiddleware.validateId.bind(commonMiddleware),
+    )
     .get(
       controller.get.bind(controller)
     )
