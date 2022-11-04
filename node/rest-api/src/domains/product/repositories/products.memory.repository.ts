@@ -19,7 +19,7 @@ export class ProductsMemoryRepository implements IRepository<Product> {
     return this.products;
   }
   public async get(id: string) {
-    return this.products.find(p => p.id === id);
+    return this.products.find(p => p.id === id) || null;
   }
   public async create(entity: Product) {
     const id = this.counter.toString();
@@ -42,7 +42,7 @@ export class ProductsMemoryRepository implements IRepository<Product> {
       this.products.splice(index, 1, newProduct);
       return newProduct;
     }
-    return undefined;
+    return null;
   }
   public async delete(id: string) {
     let product = await this.get(id);
