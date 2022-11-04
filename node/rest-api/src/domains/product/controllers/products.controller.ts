@@ -18,7 +18,7 @@ export class ProductsController {
     }
   }
 
-  async get(req: Request, res: Response, next: NextFunction) {
+  async get(req: Request, res: Response<Product>, next: NextFunction) {
     try {
       const product = await this.productsService.get(req.params.id);
       if (product) {
@@ -31,7 +31,7 @@ export class ProductsController {
     }
   }
 
-  async post(req: Request, res: Response, next: NextFunction) {
+  async post(req: Request, res: Response<{ id: string }>, next: NextFunction) {
     try {
       const productId = await this.productsService.create(req.body);
       res.status(201).json({ id: productId });
@@ -40,7 +40,7 @@ export class ProductsController {
     }
   }
 
-  async put(req: Request, res: Response, next: NextFunction) {
+  async put(req: Request, res: Response<Product>, next: NextFunction) {
     try {
       const updatedProduct = await this.productsService.update(req.params.id, req.body);
       if (updatedProduct) {
@@ -53,7 +53,7 @@ export class ProductsController {
     }
   }
 
-  async delete(req: Request, res: Response, next: NextFunction) {
+  async delete(req: Request, res: Response<undefined>, next: NextFunction) {
     try {
       const ok = await this.productsService.delete(req.params.id);
       if (ok) {
