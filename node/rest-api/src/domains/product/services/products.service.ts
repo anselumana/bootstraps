@@ -1,5 +1,5 @@
 import { IRepository } from "../../../common/interfaces/repository.interface";
-import { Product } from "../../../common/model/model";
+import { Product } from "../models/product.model";
 import { ProductsMemoryRepository } from "../repositories/products.memory.repository";
 
 
