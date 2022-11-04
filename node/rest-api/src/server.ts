@@ -1,13 +1,15 @@
 import * as http from 'http';
 import app from './app';
-import { AppConfig } from './common/config/app.config';
-import init from './common/utils/init.utils';
+import config from './common/config/config';
+import init from './init';
 
 
 init()
   .then(() => {
     const server = http.createServer(app);
-    const port = AppConfig.current().port;
+
+    const port = config.config().port;
+    
     server.listen(port, () => {
       console.log(`[init] server listening on port ${port}`);
     });

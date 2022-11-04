@@ -1,6 +1,4 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import * as expressWinston from 'express-winston';
 import productsRouter from './domains/product/products.router';
@@ -18,11 +16,7 @@ app.use(expressWinston.logger(loggerOptions));
 app.use("/products", productsRouter());
 
 // ping route for debug
-app.get('/ping', (req: express.Request, res: express.Response) => {
-  res.status(200).json({
-    message: "pong",
-  });
-});
+app.get("/ping", (req: Request, res: Response) => res.status(200).json({ message: "pong" }));
 
 // error handling middleware
 app.use(errorLogger);
