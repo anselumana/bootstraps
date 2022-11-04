@@ -1,8 +1,7 @@
 import express from "express";
-import { formatRes } from "../utils/http.utils";
 
 export function errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-  res.status(500).send(formatRes(null, err.message));
+  res.status(500).send({ error: err.message });
 }
 
 export function errorLogger(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { formatRes } from '../../../common/utils/http.utils';
+import { Product } from '../models/product.model';
 import { ProductsService } from '../services/products.service';
 
 export class ProductsController {
@@ -9,10 +9,10 @@ export class ProductsController {
     this.productsService = new ProductsService();
   }
 
-  async list(req: Request, res: Response, next: NextFunction) {
+  async list(req: Request, res: Response<Product[]>, next: NextFunction) {
     try {
       const products = await this.productsService.list();
-      res.status(200).json(formatRes(products));
+      res.status(200).json(products);
     } catch (err) {
       next(err);
     }
@@ -22,9 +22,9 @@ export class ProductsController {
     try {
       const product = await this.productsService.get(req.params.id);
       if (product) {
-        res.status(200).json(formatRes(product));
+        res.status(200).json(product);
       } else {
-        res.status(404).json(formatRes(null, "not found"));
+        res.status(404).json();
       }
     } catch (err) {
       next(err);
@@ -34,7 +34,7 @@ export class ProductsController {
   async post(req: Request, res: Response, next: NextFunction) {
     try {
       const productId = await this.productsService.create(req.body);
-      res.status(201).json(formatRes({ id: productId }));
+      res.status(201).json({ id: productId });
     } catch (err) {
       next(err);
     }
@@ -44,9 +44,9 @@ export class ProductsController {
     try {
       const updatedProduct = await this.productsService.update(req.params.id, req.body);
       if (updatedProduct) {
-        res.status(200).json(formatRes(updatedProduct));
+        res.status(200).json(updatedProduct);
       } else {
-        res.status(404).json(formatRes(null, "not found"));
+        res.status(404).json();
       }
     } catch (err) {
       next(err);
@@ -59,7 +59,7 @@ export class ProductsController {
       if (ok) {
         res.status(204).json();
       } else {
-        res.status(404).json(formatRes(null, "not found"));
+        res.status(404).json();
       }
     } catch (err) {
       next(err);

@@ -16,7 +16,8 @@
     "express": "^4.18.2",
     "express-winston": "^4.2.0",
     "moment": "^2.29.4",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
