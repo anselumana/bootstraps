@@ -6,7 +6,7 @@ import init from './init';
 
 init()
   .then(() => {
-    const server = http.createServer(app);
+    const server = http.createServer(app());
 
     const port = config.config().port;
     

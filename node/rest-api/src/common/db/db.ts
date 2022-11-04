@@ -13,5 +13,10 @@ export default {
       throw new Error(`unable to connect to mongodb: ${err.message}`);
     }
   },
-  client: () => client,
+  db: () => {
+    if (!client) {
+      throw new Error("attempted to access db client before initialization");
+    }
+    return client.db();
+  }
 }

@@ -1,13 +1,13 @@
 import { IRepository } from "../../../common/interfaces/repository.interface";
 import { Product } from "../models/product.model";
-import { ProductsMemoryRepository } from "../repositories/products.memory.repository";
+import { ProductsRepository } from "../repositories/products.repository";
 
 
 export class ProductsService {
   private repository: IRepository<Product>;
 
   constructor() {
-    this.repository = new ProductsMemoryRepository();
+    this.repository = new ProductsRepository();
   }
 
   public async list() {
