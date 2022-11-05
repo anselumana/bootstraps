@@ -23,7 +23,7 @@ const loadConfig = () => {
 const getConfig = () => {
   const env = process.env.NODE_ENV?.toLowerCase();
   const configFile = `${env}.config.json`;
-  const json = fs.readFileSync(path.join(process.cwd(), "src", "confi", configFile), "utf8");
+  const json = fs.readFileSync(path.join(process.cwd(), "src", "config", configFile), "utf8");
   const config = JSON.parse(json);
   return config;
 }
