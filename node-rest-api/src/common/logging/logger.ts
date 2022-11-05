@@ -1,32 +1,40 @@
+import moment from "moment";
 import { createLogger, format, transports } from "winston";
+const { printf, combine, timestamp, colorize } = format;
 
-const { combine, timestamp, label, prettyPrint, printf } = format;
 
-const custom = printf(({ level, message, label, service, timestamp }) => {
-  return `[${timestamp}] [${service}] ${message}`;
+const ts = () => {
+  return moment().format("YYYY-MM-DD HH:mm:ss.SSS");
+}
+
+const consoleLogs = new transports.Console({
+  level: "debug",
+  format: combine(
+    colorize({ all: true }),
+    printf((info) => {
+      return `[${ts()}] [${info.service}] ${info.message}`;
+    }),
+  ),
 });
 
-const _transports = [
-  new transports.Console(),
-];
-
-const _format = format.combine(
-  timestamp({ format: "YYYY-MM-DD HH:mm:ss"}),
-  format.colorize({ all: true }),
-  custom,
-  // format.timestamp({ format: "YYYY-MM-DD HH:mm:ss"}),
-  // format.json(),
-  // format.prettyPrint(),
-  // format.errors({ stack: true }),
-  // format.json(),
-  // format.splat(),
-);
+const fileLogs = new transports.File({
+  level: "debug",
+  filename: "logs/errors.log",
+  format: combine(
+    printf((info) => {
+      return `[${ts()}] [${info.level}] [${info.service}] ${info.message}`;
+    }),
+  )
+});
 
 const logger = createLogger({
-  level: "debug",
-  format: _format,
-  defaultMeta: { service: "products-api" },
-  transports: _transports,
+  transports: [
+    consoleLogs,
+    fileLogs,
+  ],
+  defaultMeta: {
+    service: "products-api"
+  },
 });
 
 export default logger;
