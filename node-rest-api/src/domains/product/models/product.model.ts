@@ -6,7 +6,7 @@ export const productZod = z.object({
   name: z.string(),
   price: z.number(),
   inStock: z.boolean(),
-});
+}).strict();
 
 // post validation model
 export const postProductZod = productZod.omit({

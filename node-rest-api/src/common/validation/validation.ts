@@ -25,7 +25,7 @@ const getErrors = (err: ZodError): ValidationError[] => {
  * @param expected the expected object described as a ZodObject
  * @returns a boolean indicating success and eventually a list of errors
  */
-export function validate(obj: any, expected: ZodObject<any>): ValidationOutput {
+export function validate(obj: any, expected: ZodObject<any, "strict">): ValidationOutput {
   const res = expected.safeParse(obj);
   if (res.success) {
     return { success: true };
