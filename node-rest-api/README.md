@@ -1,2 +1,2 @@
 # REST API in NodeJS
-NodeJS REST API with express.js and typescript.
+NodeJS REST API with express.js, typescrit and mongodb.
