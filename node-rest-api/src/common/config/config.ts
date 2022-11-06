@@ -16,7 +16,7 @@ const loadConfig = () => {
     setConfig(c);
   }
   catch (err: any) {
-    throw new Error(`unable to load config: ${err.message}`);
+    throw new Error(`error loading config: ${err.message}`);
   }
 }
 
@@ -28,6 +28,7 @@ const getConfig = () => {
   return config;
 }
 
+// todo: use zod validation?
 const validateConfig = (c: any) => {
   if (!c) {
     throw new Error("empty config file");

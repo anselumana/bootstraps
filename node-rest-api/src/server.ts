@@ -11,10 +11,10 @@ init()
     const port = config.config().port;
     
     server.listen(port, () => {
-      console.log(`[init] server listening on port ${port}`);
+      console.log(`server listening on port ${port}`);
     });
   })
   .catch((err: any) => {
-    console.error(`[init] ${err}`);
+    console.error(`unable to start app: ${err.message}`);
     process.exit(1);
   });
