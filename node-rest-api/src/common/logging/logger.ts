@@ -1,6 +1,6 @@
 import moment from "moment";
 import { createLogger, format, transports } from "winston";
-const { printf, combine, timestamp, colorize } = format;
+const { printf, combine, colorize } = format;
 
 
 const ts = () => {
@@ -18,7 +18,7 @@ const consoleLogs = new transports.Console({
 });
 
 const fileLogs = new transports.File({
-  level: "debug",
+  level: "warn",
   filename: "logs/errors.log",
   format: combine(
     printf((info) => {
@@ -32,9 +32,6 @@ const logger = createLogger({
     consoleLogs,
     fileLogs,
   ],
-  defaultMeta: {
-    service: "products-api"
-  },
 });
 
 export default logger;

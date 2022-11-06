@@ -1,11 +1,11 @@
-import express from "express";
+import { Request, Response, NextFunction} from "express";
+import logger from "../logging/logger";
 
-export function errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+
+const _logger = logger.child({ service: "error.handler" });
+
+export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+  _logger.error(err.stack);
   const message = process.env.NODE_ENV === "prod" ? "unhandled error occured" : err.message;
   res.status(500).json({ message });
-}
-
-export function errorLogger(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-  console.error(err.stack);
-  next(err);
 }
