@@ -9,10 +9,8 @@ import db from './common/db/db';
 
 db.connect()
   .then(() => {
-    // create http server
     const server = http.createServer(app);
 
-    // listen on specified port
     server.listen(config.port, () => {
       logger.info(`server listening on port ${config.port}`);
     });
