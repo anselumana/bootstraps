@@ -3,6 +3,8 @@ import cors from 'cors';
 import productsRouter from './domains/product/products.router';
 import { errorHandler } from './common/error/error.handler';
 import { httpLogger } from './common/middleware/common.middleware';
+import * as swagger from "swagger-ui-express";
+import * as swaggerJson from "./swagger/static/swagger.json";
 
 
 const app = () => {
@@ -11,6 +13,9 @@ const app = () => {
   app.use(express.json());
   app.use(cors());
   app.use(httpLogger);
+
+  // swagger
+  app.use('/docs', swagger.serve, swagger.setup(swaggerJson));
 
   app.use("/products", productsRouter());
 
