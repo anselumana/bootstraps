@@ -1,4 +1,0 @@
-{
-  "connectionString": "mongodb://localhost:27017/products_db",
-  "port": 4040
-}
