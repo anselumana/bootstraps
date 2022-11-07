@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon",
-    "build": "tsc",
+    "nodemon": "npx nodemon",
+    "start": "npm run swagger-gen && ts-node ./src/server.ts",
+    "build": "npm run swagger-gen && tsc",
     "swagger-gen": "ts-node ./src/swagger/swagger.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,10 +1,16 @@
 import swaggerAutogen from "swagger-autogen";
 
-const outputFile = './src/swagger/static/swagger.json';
+
+const doc = {
+   info: {
+     title: "Products API",
+     description: "Simple REST API built with Typescript, Express and MongoDB.",
+   },
+   host: "localhost:4040", // todo: how to make parametric?
+   schemes: ["http"],
+ };
+
+const outputFile = "./src/swagger/static/swagger.json";
 const endpointsFiles = ["./src/app.ts"];
 
-/* NOTE: if you use the express Router, you must pass in the 
-   'endpointsFiles' only the root file where the route starts,
-   such as index.js, app.js, routes.js, ... */
-
-swaggerAutogen(outputFile, endpointsFiles);
+swaggerAutogen(outputFile, endpointsFiles, doc);
