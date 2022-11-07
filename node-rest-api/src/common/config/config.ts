@@ -1,8 +1,7 @@
 import * as dotenv from 'dotenv';
 import logger from '../logging/logger';
-import z from "zod";
-import { validate } from "../validation/validation";
 import { exit } from '../utils/common.utils';
+import { validateEnvironment } from './config.helper';
 
 
 // load .env, if present
@@ -18,19 +17,14 @@ if (!(supported_envs.includes(env))) {
 logger.info(`environment: '${env}'`);
 
 const environment = {
+  PORT: process.env.PORT,
   MONGO_CONNECTION: process.env.MONGO_CONNECTION,
 }
 
-// use zod to define expected env variables
-const expectedEnvironment = z.object({
-  MONGO_CONNECTION: z.string(),
-});
-
 // validate env
-const result = validate(environment, expectedEnvironment);
-if (!result.success) {
-  const error = result.errors![0];
-  exit(`invalid environment variable '${error.field}' (reason: ${error.message})`);
+const error = validateEnvironment(environment);
+if (error) {
+  exit(error);
 }
 
 interface Configuration {
@@ -40,7 +34,7 @@ interface Configuration {
 
 const config: Configuration = {
   connectionString: environment.MONGO_CONNECTION!,
-  port: 4040,
+  port: +environment.PORT!,
 };
 
 export default config;
