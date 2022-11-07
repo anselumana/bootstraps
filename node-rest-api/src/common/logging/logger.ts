@@ -3,27 +3,23 @@ import { createLogger, format, transports } from "winston";
 const { printf, combine, colorize } = format;
 
 
-const ts = () => {
-  return moment().format("YYYY-MM-DD HH:mm:ss.SSS");
+const formatLog = () => {
+  return printf(info => `[${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}] [${info.level}] [${info.service || ""}] ${info.message}`);
 }
 
 const consoleLogs = new transports.Console({
   level: "debug",
   format: combine(
     colorize({ all: true }),
-    printf((info) => {
-      return `[${ts()}] [${info.service}] ${info.message}`;
-    }),
+    formatLog(),
   ),
 });
 
 const fileLogs = new transports.File({
-  level: "warn",
-  filename: "logs/errors.log",
+  level: "info",
+  filename: "logs/products_api.log",
   format: combine(
-    printf((info) => {
-      return `[${ts()}] [${info.level}] [${info.service}] ${info.message}`;
-    }),
+    formatLog(),
   )
 });
 

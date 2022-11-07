@@ -2,7 +2,7 @@ import { Request, Response, NextFunction} from "express";
 import logger from "../logging/logger";
 
 
-const _logger = logger.child({ service: "error.handler" });
+const _logger = logger.child({});
 
 export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
   _logger.error(err.stack);
