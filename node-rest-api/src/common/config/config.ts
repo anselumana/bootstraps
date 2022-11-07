@@ -18,14 +18,12 @@ if (!(supported_envs.includes(env))) {
 logger.info(`environment: '${env}'`);
 
 const environment = {
-  MONGO_USER: process.env.MONGO_USER,
-  MONGO_PASSWORD: process.env.MONGO_PASSWORD,
+  MONGO_CONNECTION: process.env.MONGO_CONNECTION,
 }
 
 // use zod to define expected env variables
 const expectedEnvironment = z.object({
-  MONGO_USER: z.string(),
-  MONGO_PASSWORD: z.string(),
+  MONGO_CONNECTION: z.string(),
 });
 
 // validate env
@@ -41,7 +39,7 @@ interface Configuration {
 }
 
 const config: Configuration = {
-  connectionString: `mongodb://localhost:27017/products_db`, // todo: add username + password
+  connectionString: environment.MONGO_CONNECTION!,
   port: 4040,
 };
 
