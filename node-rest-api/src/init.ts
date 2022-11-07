@@ -1,7 +1,10 @@
 import config from "./common/config/config";
 import * as dotenv from 'dotenv';
 import db from "./common/db/db";
+import logger from "./common/logging/logger";
 
+
+const _logger = logger.child({});
 
 const loadEnvironment = () => {
   // load .env
@@ -13,7 +16,7 @@ const loadEnvironment = () => {
   } else if (!(supported_envs.includes(env))) {
     throw new Error(`'NODE_ENV' env variable has invaild value '${env}' while accepted values are [${supported_envs.map(e => `'${e}'`).join(", ")}].`);
   }
-  console.info(`environment: '${env}'`);
+  _logger.info(`environment: '${env}'`);
 }
 
 export default async function init() {

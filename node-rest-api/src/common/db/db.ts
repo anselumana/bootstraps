@@ -1,5 +1,9 @@
 import { MongoClient } from "mongodb";
 import config from "../config/config";
+import logger from "../logging/logger";
+
+
+const _logger = logger.child({});
 
 let client: MongoClient;
 
@@ -7,10 +11,10 @@ const connectWithRetry = async () => {
   const tries = 3;
   let currentTry = 0;
   while (currentTry < tries) {
-    console.log(`attempting to connect to mongodb (try ${currentTry + 1}/${tries})`);
+    _logger.info(`attempting to connect to mongodb (try ${currentTry + 1}/${tries})`);
     try {
       await client.connect();
-      console.log("connection successful");
+      _logger.info("connection successful");
       break;
     }
     catch (err: any) {
@@ -18,7 +22,7 @@ const connectWithRetry = async () => {
       if (currentTry === 2) {
         throw new Error(message);
       }
-      console.warn(message);
+      _logger.warn(message);
       currentTry++;
     }
   }

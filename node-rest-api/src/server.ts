@@ -1,8 +1,11 @@
 import * as http from 'http';
 import app from './app';
 import config from './common/config/config';
+import logger from './common/logging/logger';
 import init from './init';
 
+
+const _logger = logger.child({});
 
 init()
   .then(() => {
@@ -11,10 +14,10 @@ init()
     const port = config.config().port;
     
     server.listen(port, () => {
-      console.log(`server listening on port ${port}`);
+      _logger.info(`server listening on port ${port}`);
     });
   })
   .catch((err: any) => {
-    console.error(`unable to start app: ${err.message}`);
+    _logger.error(`unable to start app: ${err.message}`);
     process.exit(1);
   });
