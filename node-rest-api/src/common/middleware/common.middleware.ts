@@ -6,6 +6,11 @@ import logger from "../logging/logger";
 const _logger = logger.child({});
 
 export const httpLogger = (req: Request, res: Response, next: NextFunction) => {
+  // ignore swagger docs requests
+  if (req.path.startsWith("/docs")) {
+    next();
+    return;
+  }
   _logger.info(`${req.method} ${req.path}`);
   next();
 }
