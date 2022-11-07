@@ -6,7 +6,7 @@
   "scripts": {
     "nodemon": "npx nodemon",
     "start": "npm run swagger-gen && ts-node ./src/server.ts",
-    "build": "npm run swagger-gen && tsc",
+    "build": "npm run swagger-gen && tsc && echo Built successfully",
     "swagger-gen": "ts-node ./src/swagger/swagger.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
