@@ -5,7 +5,7 @@
     "description": "Simple REST API built with Typescript, Express and MongoDB.",
     "version": "1.0.0"
   },
-  "host": "localhost:4040",
+  "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
     "http"

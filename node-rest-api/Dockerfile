@@ -18,7 +18,7 @@ RUN npm run build
 # to set env variables, use the -e flag with `docker run`
 
 # make sure it matches the app's port
-EXPOSE 4040
+EXPOSE 8080
 
 # start the app
 CMD [ "node", "./dist/server.js" ]

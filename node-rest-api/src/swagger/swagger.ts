@@ -6,7 +6,7 @@ const doc = {
      title: "Products API",
      description: "Simple REST API built with Typescript, Express and MongoDB.",
    },
-   host: "localhost:4040", // todo: how to make parametric?
+   host: "localhost:8080", // todo: how to make parametric?
    schemes: ["http"],
  };
 
