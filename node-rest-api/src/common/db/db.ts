@@ -3,15 +3,36 @@ import config from "../config/config";
 
 let client: MongoClient;
 
+const connectWithRetry = async () => {
+  const tries = 3;
+  let currentTry = 0;
+  while (currentTry < tries) {
+    console.log(`attempting to connect to mongodb (try ${currentTry + 1}/${tries})`);
+    try {
+      await client.connect();
+      console.log("connection successful");
+      break;
+    }
+    catch (err: any) {
+      const message = `unable to connect to mongodb: ${err.message}`;
+      if (currentTry === 2) {
+        throw new Error(message);
+      }
+      console.warn(message);
+      currentTry++;
+    }
+  }
+}
+
 export default {
   init: async () => {
     try {
       client = new MongoClient(config.config().connectionString);
-      await client.connect()
     }
     catch (err: any) {
-      throw new Error(`unable to connect to mongodb: ${err.message}`);
+      throw new Error(`unable to instanciate mongo client: ${err.message}`);
     }
+    await connectWithRetry();
   },
   db: () => {
     if (!client) {
