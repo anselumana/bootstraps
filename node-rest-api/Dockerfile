@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:latest
 
 WORKDIR /usr/src/app
 
@@ -15,8 +15,7 @@ COPY . .
 # transapile typescript into js
 RUN npm run build
 
-# set node environment
-ENV NODE_ENV=stg
+# to set env variables, use the -e flag with `docker run`
 
 # make sure it matches the app's port
 EXPOSE 4040
