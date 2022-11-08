@@ -12,7 +12,7 @@ You can find a swagger UI at the `/docs` endpoint.
 
 ## Features
 Besides typescript, express and mongodb, this API has the following features:
-* configurable [winston]() logging
+* configurable [winston](https://www.npmjs.com/package//winston) logging
 * request validation with [zod](https://zod.dev/)
 * [swagger](https://swagger.io/) (auto-generated with [swagger-autogen](https://www.npmjs.com/package/swagger-autogen))
 * [docker](https://www.docker.com/)
