@@ -3,8 +3,8 @@ import { z } from "zod";
 // base model
 export const productZod = z.object({
   id: z.string(),
-  name: z.string(),
-  price: z.number(),
+  name: z.string().min(6),
+  price: z.number().min(0),
   inStock: z.boolean(),
 }).strict();
 
