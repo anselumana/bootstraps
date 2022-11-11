@@ -1,6 +1,6 @@
 import { ObjectId, OptionalId, Document } from "mongodb";
 import db from "../db/db";
-import { IReadRepository, IRepository } from "../interfaces/repository.interface";
+import { IRepository } from "../interfaces/repository.interface";
 
 /**
  * Abstract class that provides access to the
