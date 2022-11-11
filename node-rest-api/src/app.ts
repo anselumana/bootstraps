@@ -7,21 +7,24 @@ import * as swagger from "swagger-ui-express";
 import * as swaggerJson from "./swagger/static/swagger.json";
 
 
-const app = express();
+const app = () => {
+  const app = express();
+  
+  app.use(express.json());
+  app.use(cors());
+  app.use(httpLogger);
+  
+  app.use('/docs', swagger.serve, swagger.setup(swaggerJson));
+  
+  app.use("/products", productsRouter());
+  app.get("/ping", (req: Request, res: Response) => res.status(200).json({ message: "pong" }));
+  
+  app.use((req: Request, res: Response, next: NextFunction) => res.status(404).send());
+  
+  app.use(errorHandler);
 
-app.use(express.json());
-app.use(cors());
-app.use(httpLogger);
-
-// swagger
-app.use('/docs', swagger.serve, swagger.setup(swaggerJson));
-
-app.use("/products", productsRouter());
-app.get("/ping", (req: Request, res: Response) => res.status(200).json({ message: "pong" }));
-
-app.use((req: Request, res: Response, next: NextFunction) => res.status(404).send());
-
-app.use(errorHandler);
+  return app;
+}
 
 
 export default app;

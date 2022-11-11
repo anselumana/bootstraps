@@ -1,4 +1,4 @@
-import { ObjectId, OptionalId, Document } from "mongodb";
+import { ObjectId, OptionalId, Document, Db } from "mongodb";
 import db from "../db/db";
 import { IRepository } from "../interfaces/repository.interface";
 
@@ -6,10 +6,12 @@ import { IRepository } from "../interfaces/repository.interface";
  * Abstract class that provides access to the
  * mongodb collection identified by its name.
  */
-abstract class MongoDbNamedCollection {
+export abstract class MongoDbBase {
+  private db: Db;
   private collectionName: string;
 
-  constructor(collectionName: string) {
+  constructor(db: Db, collectionName: string) {
+    this.db = db;
     this.collectionName = collectionName;
   }
   
@@ -17,15 +19,15 @@ abstract class MongoDbNamedCollection {
    * @returns the mongodb collection.
    */
   protected collection() {
-    return db.instance().collection(this.collectionName);
+    return this.db.collection(this.collectionName);
   }
 }
 
 /**
- * Abstract class that provides base functionality
- * to mongodb repositories.
+ * Abstract class that extends MongoDbBase providing
+ * extra functionality to mongodb repositories.
  */
-export abstract class MongoDbBase extends MongoDbNamedCollection {
+export abstract class MongoDbBaseWithUtils extends MongoDbBase {
   /**
    * converts each entity from { _id: ObjectId, ... } to { id: string, ... }.
    * @param entities array of input entities
@@ -59,7 +61,7 @@ export abstract class MongoDbBase extends MongoDbNamedCollection {
 /**
  * Generic implementation of mongodb repository pattern.
  */
-export class MongoDbRepository<T> extends MongoDbBase implements IRepository<T> {
+export class MongoDbRepository<T> extends MongoDbBaseWithUtils implements IRepository<T> {
   public async list(): Promise<T[]> {
     const entities = await this.collection().find().toArray();
     return this.mapIds(entities) as T[];
