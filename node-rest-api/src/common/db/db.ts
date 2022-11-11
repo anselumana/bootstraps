@@ -1,4 +1,4 @@
-import { MongoClient, Db } from "mongodb";
+import { MongoClient, Db, MongoClientOptions } from "mongodb";
 import config from "../config/config";
 import logger from "../logging/logger";
 
@@ -9,9 +9,9 @@ import logger from "../logging/logger";
 class MongoDbClient {
   private client: MongoClient;
 
-  constructor(connectionString: string) {
+  constructor(connectionString: string, options?: MongoClientOptions) {
     try {
-      this.client = new MongoClient(connectionString);
+      this.client = new MongoClient(connectionString, options);
     }
     catch (err: any) {
       throw new Error(`unable to instanciate mongo client: ${err.message}`);
@@ -47,5 +47,11 @@ class MongoDbClient {
   }
 }
 
+const timeout = process.env.NODE_ENV === "dev" ? 5_000 : 30_000;
 
-export default new MongoDbClient(config.connectionString);
+
+export default new MongoDbClient(config.connectionString, {
+  socketTimeoutMS: timeout,
+  connectTimeoutMS: timeout,
+  serverSelectionTimeoutMS: timeout,
+});
