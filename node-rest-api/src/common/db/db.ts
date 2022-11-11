@@ -3,50 +3,49 @@ import config from "../config/config";
 import logger from "../logging/logger";
 
 
-const connectWithRetry = async (client: MongoClient) => {
-  const tries = 3;
-  let currentTry = 0;
-  while (currentTry < tries) {
-    logger.info(`attempting to connect to mongodb (try ${currentTry + 1}/${tries})`);
+/**
+ * mongodb.MongoClient wrapper.
+ */
+class MongoDbClient {
+  private client: MongoClient;
+
+  constructor(connectionString: string) {
     try {
-      await client.connect();
-      logger.info("connection successful");
-      break;
+      this.client = new MongoClient(connectionString);
     }
     catch (err: any) {
-      const message = `unable to connect to mongodb: ${err.message}`;
-      if (currentTry === 2) {
-        throw new Error(message);
+      throw new Error(`unable to instanciate mongo client: ${err.message}`);
+    }
+  }
+
+  public db(): Db {
+    return this.client.db();
+  }
+
+  /**
+   * Attempts to connect to a Mongo DB instance.
+   * @param maxRetry max number of tries to connect to Mongo DB before throwing error.
+   */
+  public async connect(maxRetry: number = 3): Promise<void> {
+    let currentTry = 0;
+    while (currentTry < maxRetry) {
+      logger.info(`attempting to connect to mongodb (try ${currentTry + 1}/${maxRetry})`);
+      try {
+        await this.client.connect();
+        logger.info("connection successful");
+        break;
       }
-      logger.warn(message);
-      currentTry++;
+      catch (err: any) {
+        const message = `unable to connect to mongodb: ${err.message}`;
+        if (currentTry === 2) {
+          throw new Error(message);
+        }
+        logger.warn(message);
+        currentTry++;
+      }
     }
   }
 }
 
-const getDbClient = () => {
-  try {
-    return new MongoClient(config.connectionString);
-  }
-  catch (err: any) {
-    throw new Error(`unable to instanciate mongo client: ${err.message}`);
-  }
-}
 
-const getDb = async () => {
-  const client = getDbClient();
-  await connectWithRetry(client);
-  return client.db();
-}
-
-let db: Db;
-
-
-export default {
-  connect: async () => {
-    db = await getDb();
-  },
-  instance: () => {
-    return db;
-  }
-};
+export default new MongoDbClient(config.connectionString);

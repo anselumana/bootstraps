@@ -8,7 +8,7 @@ import db from './common/db/db';
 
 db.connect()
   .then(() => {
-    const server = http.createServer(app());
+    const server = http.createServer(app);
 
     server.listen(config.port, () => {
       logger.info(`server listening on port ${config.port}`);
