@@ -1,5 +1,4 @@
 import { ObjectId, OptionalId, Document, Db } from "mongodb";
-import db from "../db/db";
 import { IRepository } from "../interfaces/repository.interface";
 
 /**
