@@ -27,6 +27,9 @@ class MongoDbClient {
    * @param maxRetry max number of tries to connect to Mongo DB before throwing error.
    */
   public async connect(maxRetry: number = 3): Promise<void> {
+    if (maxRetry < 1) {
+      maxRetry = 1;
+    }
     let currentTry = 0;
     while (currentTry < maxRetry) {
       logger.info(`attempting to connect to mongodb (try ${currentTry + 1}/${maxRetry})`);
@@ -37,7 +40,7 @@ class MongoDbClient {
       }
       catch (err: any) {
         const message = `unable to connect to mongodb: ${err.message}`;
-        if (currentTry === 2) {
+        if (currentTry === maxRetry - 1) {
           throw new Error(message);
         }
         logger.warn(message);
