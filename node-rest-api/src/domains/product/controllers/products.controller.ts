@@ -33,7 +33,8 @@ export class ProductsController {
 
   async post(req: Request, res: Response<{ id: string }>, next: NextFunction) {
     try {
-      const productId = await this.productsService.create(req.body);
+      const product = req.body;
+      const productId = await this.productsService.create(product);
       res.status(201).json({ id: productId });
     } catch (err) {
       next(err);
@@ -42,7 +43,8 @@ export class ProductsController {
 
   async put(req: Request, res: Response<Product>, next: NextFunction) {
     try {
-      const updatedProduct = await this.productsService.update(req.params.id, req.body);
+      const product = req.body;
+      const updatedProduct = await this.productsService.update(req.params.id, product);
       if (updatedProduct) {
         res.status(200).json(updatedProduct);
       } else {

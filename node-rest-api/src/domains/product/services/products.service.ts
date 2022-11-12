@@ -1,5 +1,4 @@
 import { IRepository } from "../../../common/interfaces/repository.interface";
-import { MongoDbRepository } from "../../../common/repository/mongodb.repository";
 import { Product } from "../models/product.model";
 import { ProductsRepository } from "../repositories/products.repository";
 

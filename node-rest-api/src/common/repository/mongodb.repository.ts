@@ -1,5 +1,7 @@
+import moment from "moment";
 import { ObjectId, OptionalId, Document, Db } from "mongodb";
 import { IRepository } from "../interfaces/repository.interface";
+import { Entity, TimestampedEntity } from "../models/base.models";
 
 /**
  * Abstract class that provides access to the
@@ -89,4 +91,27 @@ export class MongoDbRepository<T> extends MongoDbBaseWithUtils implements IRepos
     const res = await this.collection().deleteOne(this.idFilter(id));
     return res.deletedCount === 1;
   };
+}
+
+
+/**
+ * Generic implementation of mongodb repository pattern
+ * for `TimestampedEntity` types.
+ */
+export class MongoDbEntityRepository<T extends TimestampedEntity> extends MongoDbRepository<T> {
+  public override async create(entity: T): Promise<string> {
+    const enriched: T = {
+      ...entity,
+      created: moment().valueOf(),
+    };
+    return await super.create(enriched);
+  }
+  
+  public override async update(id: string, entity: T): Promise<T> {
+    const enriched: T = {
+      ...entity,
+      updated: moment().valueOf(),
+    };
+    return await super.update(id, enriched);
+  }
 }

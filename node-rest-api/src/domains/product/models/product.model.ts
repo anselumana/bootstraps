@@ -1,22 +1,12 @@
 import { z } from "zod";
+import { entityZod } from "../../../common/models/base.models";
 
-// base model
-export const productZod = z.object({
-  id: z.string(),
+const baseProductZod = z.object({
   name: z.string().min(1),
   price: z.number().min(0),
   inStock: z.boolean(),
 }).strict();
 
-// post validation model
-export const postProductZod = productZod.omit({
-  id: true
-});
+export const productZod = baseProductZod.merge(entityZod);
 
-// put validation model
-export const putProductZod = productZod.omit({
-  id: true
-});
-
-// actual product type
 export type Product = z.infer<typeof productZod>;
