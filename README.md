@@ -4,10 +4,9 @@ NodeJS REST API built with [express.js](https://expressjs.com/), [typescript](ht
 ## Quick Start
 To get started developing your own API using this template, just follow these steps:
 1. clone this repo
-2. cd into `/node-rest-api`
-3. install deps with `npm install`
+2. install deps with `npm install`
 
-Finally, just run `npm start`.
+Finally, just run `npm start` (or `npx nodemon` for auto-restarts on source edits).
 You can find a swagger UI at the `/docs` endpoint.
 
 ## Features
