@@ -1,4 +1,4 @@
-# NodeJS REST API
+# NodeJS REST API Template
 NodeJS REST API built with [express.js](https://expressjs.com/), [typescript](https://www.typescriptlang.org/) and [mongodb](https://www.mongodb.com/).
 
 ## Quick Start
