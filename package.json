@@ -1,8 +1,8 @@
 {
-  "name": "rest-api",
+  "name": "nodejs-rest-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "NodeJS REST API built with express.js, typescript and mongodb.",
+  "main": "src/server.ts",
   "scripts": {
     "start": "npm run swagger-gen && ts-node ./src/server.ts",
     "build": "npm run swagger-gen && tsc && echo Built successfully",
