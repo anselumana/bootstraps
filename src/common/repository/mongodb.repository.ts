@@ -68,7 +68,7 @@ export class MongoDbRepository<T extends WithId> extends MongoDbBaseWithUtils im
     return this.mapIds(entities) as T[];
   }
 
-  public async get(id: string): Promise<T> {
+  public async get(id: string): Promise<T | null> {
     const entity = await this.collection().findOne(this.idFilter(id));
     return this.mapId(entity) as T;
   }
