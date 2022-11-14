@@ -18,7 +18,7 @@ export const timestampedEntitySchema = withIdSchema.merge(withTimestampsSchema);
 export const entitySchema = timestampedEntitySchema.merge(withUserIdSchema);
 
 
-export type WithId = z.infer<typeof withIdSchema>;
-export type WithTimestamps = z.infer<typeof withTimestampsSchema>;
+export type Identifiable = z.infer<typeof withIdSchema>;
+export type Timestamped = z.infer<typeof withTimestampsSchema>;
 export type TimestampedEntity = z.infer<typeof timestampedEntitySchema>;
 export type Entity = z.infer<typeof entitySchema>;

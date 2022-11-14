@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { WithId } from '../../../common/models/base.models';
+import { Identifiable } from '../../../common/models/base.models';
+import { IdParams } from '../../../common/models/http.models';
 import { PostSymbol, PutSymbol } from '../models/symbol.io.models';
 import { Symbol } from '../models/symbol.model';
 import { SymbolsService } from '../services/symbols.service';
@@ -20,7 +21,7 @@ export class SymbolsController {
     }
   }
 
-  async get(req: Request<WithId, Symbol, {}>, res: Response<Symbol>, next: NextFunction) {
+  async get(req: Request<IdParams, Symbol, {}>, res: Response<Symbol>, next: NextFunction) {
     try {
       const symbol = await this.symbolsService.get(req.params.id);
       if (symbol) {
@@ -33,7 +34,7 @@ export class SymbolsController {
     }
   }
 
-  async post(req: Request<{}, WithId, PostSymbol>, res: Response<WithId>, next: NextFunction) {
+  async post(req: Request<{}, Identifiable, PostSymbol>, res: Response<Identifiable>, next: NextFunction) {
     try {
       const symbol: Omit<Symbol, "id"|"created"|"updated"> = {
         ...req.body,
@@ -46,7 +47,7 @@ export class SymbolsController {
     }
   }
 
-  async put(req: Request<WithId, Symbol, PutSymbol>, res: Response<Symbol>, next: NextFunction) {
+  async put(req: Request<IdParams, Symbol, PutSymbol>, res: Response<Symbol>, next: NextFunction) {
     try {
       const symbol: Omit<Symbol, "id"|"created"|"updated"> = {
         ...req.body,
@@ -63,7 +64,7 @@ export class SymbolsController {
     }
   }
 
-  async delete(req: Request<WithId, undefined, {}>, res: Response<undefined>, next: NextFunction) {
+  async delete(req: Request<IdParams, undefined, {}>, res: Response<undefined>, next: NextFunction) {
     try {
       const ok = await this.symbolsService.delete(req.params.id);
       if (ok) {

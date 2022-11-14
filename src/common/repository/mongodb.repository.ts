@@ -1,7 +1,7 @@
 import moment from "moment";
 import { ObjectId, OptionalId, Document, Db } from "mongodb";
 import { IRepository } from "../interfaces/repository.interface";
-import { Entity, TimestampedEntity, WithId } from "../models/base.models";
+import { TimestampedEntity, Identifiable } from "../models/base.models";
 
 /**
  * Abstract class that provides access to the
@@ -62,7 +62,7 @@ export abstract class MongoDbBaseWithUtils extends MongoDbBase {
 /**
  * Generic implementation of mongodb repository pattern.
  */
-export class MongoDbRepository<T extends WithId> extends MongoDbBaseWithUtils implements IRepository<T> {
+export class MongoDbRepository<T extends Identifiable> extends MongoDbBaseWithUtils implements IRepository<T> {
   public async list(): Promise<T[]> {
     const entities = await this.collection().find().toArray();
     return this.mapIds(entities) as T[];
