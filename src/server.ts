@@ -6,14 +6,19 @@ import { exit } from './common/utils/common.utils';
 import db from './common/db/db';
 
 
-db.connect()
-  .then(() => {
+const main = async () => {
+  try {
+    await db.connect();
+    
     const server = http.createServer(app);
 
     server.listen(config.port, () => {
       logger.info(`server listening on port ${config.port}`);
     });
-  })
-  .catch((err: any) => {
+  }
+  catch (err: any) {
     exit(err.message);
-  });
+  }
+};
+
+main();
