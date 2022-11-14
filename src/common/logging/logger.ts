@@ -4,7 +4,7 @@ const { printf, combine, colorize } = format;
 
 
 const formatLog = () => {
-  return printf(info => `[${moment().format("YYYY-MM-DD HH:mm:ss.SSS")}] [${info.level}] [${info.name || ""}] ${info.message}`);
+  return printf(info => `[${moment().utc().format("YYYY-MM-DD HH:mm:ss.SSS")}] [${info.level}] [${info.name || ""}] ${info.message}`);
 }
 
 const consoleLogs = new transports.Console({
