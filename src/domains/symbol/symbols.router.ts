@@ -1,11 +1,11 @@
 import express, { Router } from "express";
 import { validateId } from "../../common/middleware/common.middleware";
-import { ProductsController } from "./controllers/products.controller";
-import { validatePost, validateUpdate } from "./middleware/products.midlleware";
+import { SymbolsController } from "./controllers/symbols.controller";
+import { validatePost, validateUpdate } from "./middleware/symbols.midlleware";
 
 
-const productsRouter = (): Router => {
-  const controller = new ProductsController();
+const symbolsRouter = (): Router => {
+  const controller = new SymbolsController();
   const router = express.Router();
   router.route("/")
     .get(
@@ -32,4 +32,4 @@ const productsRouter = (): Router => {
   return router;
 }
 
-export default productsRouter;
+export default symbolsRouter;

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Products API",
+    "title": "Symbols API",
     "description": "Simple REST API built with Typescript, Express and MongoDB.",
     "version": "1.0.0"
   },
@@ -22,7 +22,7 @@
         }
       }
     },
-    "/products/": {
+    "/symbols/": {
       "get": {
         "description": "",
         "parameters": [],
@@ -38,7 +38,7 @@
         }
       }
     },
-    "/products/{id}": {
+    "/symbols/{id}": {
       "get": {
         "description": "",
         "parameters": [

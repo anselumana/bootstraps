@@ -17,7 +17,7 @@ const consoleLogs = new transports.Console({
 
 const fileLogs = new transports.File({
   level: "info",
-  filename: "logs/products_api.log",
+  filename: "logs/api.log",
   format: combine(
     formatLog(),
   )

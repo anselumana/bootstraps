@@ -3,7 +3,7 @@ import swaggerAutogen from "swagger-autogen";
 
 const doc = {
   info: {
-    title: "Products API",
+    title: "Symbols API",
     description: "Simple REST API built with Typescript, Express and MongoDB.",
   },
   host: "localhost:8080", // todo: how to make parametric?

@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import productsRouter from './domains/product/products.router';
+import symbolsRouter from './domains/symbol/symbols.router';
 import { errorHandler } from './common/error/error.handler';
 import { httpLogger } from './common/middleware/common.middleware';
 import * as swagger from "swagger-ui-express";
@@ -15,7 +15,7 @@ app.use(httpLogger);
 
 app.use('/docs', swagger.serve, swagger.setup(swaggerJson));
 
-app.use("/products", productsRouter());
+app.use("/symbols", symbolsRouter());
 app.get("/ping", (req: Request, res: Response) => res.status(200).json({ message: "pong" }));
 
 app.use((req: Request, res: Response, next: NextFunction) => res.status(404).send());

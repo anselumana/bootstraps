@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { validate } from '../../../common/validation/validation';
-import { postProductSchema, putProductSchema } from '../models/product.io.models';
+import { postSymbolSchema, putSymbolSchema } from '../models/symbol.io.models';
 
 export const validatePost = (req: Request, res: Response, next: NextFunction) => {
-  const result = validate(req.body, postProductSchema);
+  const result = validate(req.body, postSymbolSchema);
   if (result.success) {
     next();
   }
@@ -13,7 +13,7 @@ export const validatePost = (req: Request, res: Response, next: NextFunction) =>
 }
 
 export const validateUpdate = (req: Request, res: Response, next: NextFunction) => {
-  const result = validate(req.body, putProductSchema);
+  const result = validate(req.body, putSymbolSchema);
   if (result.success) {
     next();
   }
