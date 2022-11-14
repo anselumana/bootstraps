@@ -35,11 +35,9 @@ export class SymbolsController {
 
   async post(req: Request<{}, WithId, PostSymbol>, res: Response<WithId>, next: NextFunction) {
     try {
-      const symbol: Omit<Symbol, "id"> = {
+      const symbol: Omit<Symbol, "id"|"created"|"updated"> = {
         ...req.body,
         userId: "",
-        created: null,
-        updated: null,
       };
       const symbolId = await this.symbolsService.create(symbol);
       res.status(201).json({ id: symbolId });
@@ -50,11 +48,9 @@ export class SymbolsController {
 
   async put(req: Request<WithId, Symbol, PutSymbol>, res: Response<Symbol>, next: NextFunction) {
     try {
-      const symbol: Omit<Symbol, "id"> = {
+      const symbol: Omit<Symbol, "id"|"created"|"updated"> = {
         ...req.body,
         userId: "",
-        created: null,
-        updated: null,
       };
       const updatedSymbol = await this.symbolsService.update(req.params.id, symbol);
       if (updatedSymbol) {

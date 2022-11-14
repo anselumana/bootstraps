@@ -7,8 +7,8 @@ export interface IReadRepository<T extends WithId> {
 }
 
 export interface IWriteRepository<T extends WithId> {
-  create: (entity: Omit<T, "id">) => Promise<string>;
-  update: (id: string, entity: Omit<T, "id">) => Promise<T | null>;
+  create: (entity: Omit<T, any>) => Promise<string>;
+  update: (id: string, entity: Omit<T, any>) => Promise<T | null>;
   delete: (id: string) => Promise<boolean>;
 }
 

@@ -16,10 +16,10 @@ export class SymbolsService {
   public async get(id: string) {
     return await this.repository.get(id);
   }
-  public async create(symbol: Omit<Symbol, "id">) {
+  public async create(symbol: Omit<Symbol, "id"|"created"|"updated">) {
     return await this.repository.create(symbol);
   }
-  public async update(id: string, symbol: Omit<Symbol, "id">) {
+  public async update(id: string, symbol: Omit<Symbol, "id"|"created"|"updated">) {
     return await this.repository.update(id, symbol);
   }
   public async delete(id: string) {
