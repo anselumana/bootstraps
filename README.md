@@ -5,7 +5,7 @@ NodeJS REST API built with [express.js](https://expressjs.com/), [typescript](ht
 To get started developing your own API using this template, just follow these steps:
 1. clone this repo
 2. install deps with `npm install`
-3. clone `sample.env`, rename to `.env` set its values
+3. clone `sample.env`, rename to `.env` and set its values
 
 Finally, just run `npm start` (or `npx nodemon` for auto-restarts on source edits).
 You can find a swagger UI at the `/docs` endpoint.
