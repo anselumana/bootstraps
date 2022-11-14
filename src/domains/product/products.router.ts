@@ -1,10 +1,10 @@
-import express from "express";
+import express, { Router } from "express";
 import { validateId } from "../../common/middleware/common.middleware";
 import { ProductsController } from "./controllers/products.controller";
 import { validatePost, validateUpdate } from "./middleware/products.midlleware";
 
 
-const productsRouter = () => {
+const productsRouter = (): Router => {
   const controller = new ProductsController();
   const router = express.Router();
   router.route("/")

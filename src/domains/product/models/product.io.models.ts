@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { productZod } from "./product.model";
+import { productSchema } from "./product.model";
 
 
 // post request validation model
-export const postRequestProductZod = productZod.omit({
+export const postProductSchema = productSchema.omit({
   id: true,
   userId: true,
   created: true,
@@ -11,12 +11,12 @@ export const postRequestProductZod = productZod.omit({
 });
 
 // put request validation model
-export const putRequestProductZod = productZod.omit({
+export const putProductSchema = productSchema.omit({
   id: true,
   userId: true,
   created: true,
   updated: true,
 });
 
-export type PostRequestProduct = z.infer<typeof postRequestProductZod>;
-export type PutRequestProduct = z.infer<typeof putRequestProductZod>;
+export type PostProduct = z.infer<typeof postProductSchema>;
+export type PutProduct = z.infer<typeof putProductSchema>;

@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import { WithId } from '../../../common/models/base.models';
+import { PostProduct, PutProduct } from '../models/product.io.models';
 import { Product } from '../models/product.model';
 import { ProductsService } from '../services/products.service';
 
@@ -9,7 +11,7 @@ export class ProductsController {
     this.productsService = new ProductsService();
   }
 
-  async list(req: Request, res: Response<Product[]>, next: NextFunction) {
+  async list(req: Request<{}, Product[], {}>, res: Response<Product[]>, next: NextFunction) {
     try {
       const products = await this.productsService.list();
       res.status(200).json(products);
@@ -18,7 +20,7 @@ export class ProductsController {
     }
   }
 
-  async get(req: Request, res: Response<Product>, next: NextFunction) {
+  async get(req: Request<WithId, Product, {}>, res: Response<Product>, next: NextFunction) {
     try {
       const product = await this.productsService.get(req.params.id);
       if (product) {
@@ -31,9 +33,14 @@ export class ProductsController {
     }
   }
 
-  async post(req: Request, res: Response<{ id: string }>, next: NextFunction) {
+  async post(req: Request<{}, WithId, PostProduct>, res: Response<WithId>, next: NextFunction) {
     try {
-      const product = req.body;
+      const product: Omit<Product, "id"> = {
+        ...req.body,
+        userId: "",
+        created: null,
+        updated: null,
+      };
       const productId = await this.productsService.create(product);
       res.status(201).json({ id: productId });
     } catch (err) {
@@ -41,9 +48,14 @@ export class ProductsController {
     }
   }
 
-  async put(req: Request, res: Response<Product>, next: NextFunction) {
+  async put(req: Request<WithId, Product, PutProduct>, res: Response<Product>, next: NextFunction) {
     try {
-      const product = req.body;
+      const product: Omit<Product, "id"> = {
+        ...req.body,
+        userId: "",
+        created: null,
+        updated: null,
+      };
       const updatedProduct = await this.productsService.update(req.params.id, product);
       if (updatedProduct) {
         res.status(200).json(updatedProduct);
@@ -55,7 +67,7 @@ export class ProductsController {
     }
   }
 
-  async delete(req: Request, res: Response<undefined>, next: NextFunction) {
+  async delete(req: Request<WithId, undefined, {}>, res: Response<undefined>, next: NextFunction) {
     try {
       const ok = await this.productsService.delete(req.params.id);
       if (ok) {

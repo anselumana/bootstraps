@@ -1,26 +1,24 @@
 import { z } from "zod";
 
 
-// todo: handle defaults (created, updated, userId)
-
-export const withIdZod = z.object({
+export const withIdSchema = z.object({
   id: z.string().min(1),
 }).strict();
 
-export const withUserIdZod = z.object({
+export const withUserIdSchema = z.object({
   userId: z.string(),
 }).strict();
 
-export const withTimestampsZod = z.object({
-  created: z.number(),
-  updated: z.number(),
+export const withTimestampsSchema = z.object({
+  created: z.number().nullable(),
+  updated: z.number().nullable(),
 }).strict();
 
-export const timestampedEntityZod = withIdZod.merge(withTimestampsZod);
-export const entityZod = timestampedEntityZod.merge(withUserIdZod);
+export const timestampedEntitySchema = withIdSchema.merge(withTimestampsSchema);
+export const entitySchema = timestampedEntitySchema.merge(withUserIdSchema);
 
 
-export type WithId = z.infer<typeof withIdZod>;
-export type WithTimestamps = z.infer<typeof withTimestampsZod>;
-export type TimestampedEntity = z.infer<typeof timestampedEntityZod>;
-export type Entity = z.infer<typeof entityZod>;
+export type WithId = z.infer<typeof withIdSchema>;
+export type WithTimestamps = z.infer<typeof withTimestampsSchema>;
+export type TimestampedEntity = z.infer<typeof timestampedEntitySchema>;
+export type Entity = z.infer<typeof entitySchema>;

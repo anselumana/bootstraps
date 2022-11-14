@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { entityZod } from "../../../common/models/base.models";
+import { entitySchema } from "../../../common/models/base.models";
 
-const baseProductZod = z.object({
+const productBaseSchema = z.object({
   name: z.string().min(1),
   price: z.number().min(0),
   inStock: z.boolean(),
 }).strict();
 
-export const productZod = baseProductZod.merge(entityZod);
+export const productSchema = productBaseSchema.merge(entitySchema);
 
-export type Product = z.infer<typeof productZod>;
+export type Product = z.infer<typeof productSchema>;

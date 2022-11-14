@@ -16,10 +16,10 @@ export class ProductsService {
   public async get(id: string) {
     return await this.repository.get(id);
   }
-  public async create(product: Product) {
+  public async create(product: Omit<Product, "id">) {
     return await this.repository.create(product);
   }
-  public async update(id: string, product: Product) {
+  public async update(id: string, product: Omit<Product, "id">) {
     return await this.repository.update(id, product);
   }
   public async delete(id: string) {

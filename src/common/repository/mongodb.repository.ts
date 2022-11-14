@@ -1,7 +1,7 @@
 import moment from "moment";
 import { ObjectId, OptionalId, Document, Db } from "mongodb";
 import { IRepository } from "../interfaces/repository.interface";
-import { Entity, TimestampedEntity } from "../models/base.models";
+import { Entity, TimestampedEntity, WithId } from "../models/base.models";
 
 /**
  * Abstract class that provides access to the
@@ -62,7 +62,7 @@ export abstract class MongoDbBaseWithUtils extends MongoDbBase {
 /**
  * Generic implementation of mongodb repository pattern.
  */
-export class MongoDbRepository<T> extends MongoDbBaseWithUtils implements IRepository<T> {
+export class MongoDbRepository<T extends WithId> extends MongoDbBaseWithUtils implements IRepository<T> {
   public async list(): Promise<T[]> {
     const entities = await this.collection().find().toArray();
     return this.mapIds(entities) as T[];
@@ -73,12 +73,12 @@ export class MongoDbRepository<T> extends MongoDbBaseWithUtils implements IRepos
     return this.mapId(entity) as T;
   }
 
-  public async create(entity: T): Promise<string> {
+  public async create(entity: Omit<T, "id">): Promise<string> {
     const { insertedId } = await this.collection().insertOne(entity as OptionalId<Document>);
     return insertedId.toString();
   };
 
-  public async update(id: string, entity: T): Promise<T> {
+  public async update(id: string, entity: Omit<T, "id">): Promise<T> {
     const res = await this.collection().findOneAndUpdate(
       this.idFilter(id),
       { $set: entity as Document },
@@ -99,16 +99,16 @@ export class MongoDbRepository<T> extends MongoDbBaseWithUtils implements IRepos
  * for `TimestampedEntity` types.
  */
 export class MongoDbEntityRepository<T extends TimestampedEntity> extends MongoDbRepository<T> {
-  public override async create(entity: T): Promise<string> {
-    const enriched: T = {
+  public override async create(entity: Omit<T, "id">): Promise<string> {
+    const enriched: Omit<T, "id"> = {
       ...entity,
       created: moment().valueOf(),
     };
     return await super.create(enriched);
   }
   
-  public override async update(id: string, entity: T): Promise<T> {
-    const enriched: T = {
+  public override async update(id: string, entity: Omit<T, "id">): Promise<T> {
+    const enriched: Omit<T, "id"> = {
       ...entity,
       updated: moment().valueOf(),
     };
