@@ -1,21 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
+import { IRepository } from '../../../common/interfaces/repository.interface';
 import { Identifiable } from '../../../common/models/base.models';
-import { IdParams } from '../../../common/models/http.models';
+import { IdParams, Message } from '../../../common/models/http.models';
 import ExchangesMapper from '../mapper/exchanges.mapper';
 import { GetExchange, PostExchange, PutExchange } from '../models/exchange.dto.models';
 import { Exchange } from '../models/exchange.model';
-import { ExchangesService } from '../services/exchanges.service';
+import { ExchangesRepository } from '../repositories/exchanges.repository';
 
 export class ExchangesController {
-  exchangesService: ExchangesService;
+  private exchangesRepository: IRepository<Exchange>;
 
   constructor() {
-    this.exchangesService = new ExchangesService();
+    this.exchangesRepository = new ExchangesRepository();
   }
 
   async list(req: Request<{}, GetExchange[], {}>, res: Response<GetExchange[]>, next: NextFunction) {
     try {
-      const exchanges = await this.exchangesService.list();
+      const exchanges = await this.exchangesRepository.find();
       res.status(200).json(exchanges.map(s => ExchangesMapper.toGetDto(s)));
     } catch (err) {
       next(err);
@@ -24,7 +25,7 @@ export class ExchangesController {
 
   async get(req: Request<IdParams, GetExchange, {}>, res: Response<GetExchange>, next: NextFunction) {
     try {
-      const exchange = await this.exchangesService.get(req.params.id);
+      const exchange = await this.exchangesRepository.findOneById(req.params.id);
       if (exchange) {
         res.status(200).json(ExchangesMapper.toGetDto(exchange));
       } else {
@@ -35,26 +36,34 @@ export class ExchangesController {
     }
   }
 
-  async post(req: Request<{}, Identifiable, PostExchange>, res: Response<Identifiable>, next: NextFunction) {
+  async post(req: Request<{}, Identifiable | Message, PostExchange>, res: Response<Identifiable | Message>, next: NextFunction) {
     try {
       const exchange: Omit<Exchange, "id"|"created"|"updated"> = {
         ...req.body,
         userId: "",
       };
-      const exchangeId = await this.exchangesService.create(exchange);
+      if (await this.exchangeAlreadyExists(exchange)) {
+        res.status(400).json({ message: `Exchange '${exchange.name}' already exists` });
+        return;
+      }
+      const exchangeId = await this.exchangesRepository.create(exchange);
       res.status(201).json({ id: exchangeId });
     } catch (err) {
       next(err);
     }
   }
 
-  async put(req: Request<IdParams, GetExchange, PutExchange>, res: Response<GetExchange>, next: NextFunction) {
+  async put(req: Request<IdParams, GetExchange | Message, PutExchange>, res: Response<GetExchange | Message>, next: NextFunction) {
     try {
       const exchange: Omit<Exchange, "id"|"created"|"updated"> = {
         ...req.body,
         userId: "",
       };
-      const updatedExchange = await this.exchangesService.update(req.params.id, exchange);
+      if (await this.exchangeAlreadyExists(exchange)) {
+        res.status(400).json({ message: `Exchange '${exchange.name}' already exists` });
+        return;
+      }
+      const updatedExchange = await this.exchangesRepository.update(req.params.id, exchange);
       if (updatedExchange) {
         res.status(200).json(ExchangesMapper.toGetDto(updatedExchange));
       } else {
@@ -67,7 +76,7 @@ export class ExchangesController {
 
   async delete(req: Request<IdParams, undefined, {}>, res: Response<undefined>, next: NextFunction) {
     try {
-      const ok = await this.exchangesService.delete(req.params.id);
+      const ok = await this.exchangesRepository.delete(req.params.id);
       if (ok) {
         res.status(204).json();
       } else {
@@ -76,5 +85,9 @@ export class ExchangesController {
     } catch (err) {
       next(err);
     }
+  }
+  
+  async exchangeAlreadyExists(exchange: Partial<Exchange>): Promise<boolean> {
+    return await this.exchangesRepository.findOne(exchange) != null;
   }
 }

@@ -2,6 +2,7 @@ import moment from "moment";
 import { ObjectId, OptionalId, Document, Db } from "mongodb";
 import { IRepository } from "../interfaces/repository.interface";
 import { TimestampedEntity, Identifiable } from "../models/base.models";
+import { isEmpty } from "../utils/common.utils";
 
 /**
  * Abstract class that provides access to the
@@ -63,12 +64,20 @@ export abstract class MongoDbBaseWithUtils extends MongoDbBase {
  * Generic implementation of mongodb repository pattern.
  */
 export class MongoDbRepository<T extends Identifiable> extends MongoDbBaseWithUtils implements IRepository<T> {
-  public async list(): Promise<T[]> {
-    const entities = await this.collection().find().toArray();
+  public async find(entity?: Partial<Omit<T, "id">>): Promise<T[]> {
+    const entities = await this.collection().find(entity || {}).toArray();
     return this.mapIds(entities) as T[];
   }
 
-  public async get(id: string): Promise<T | null> {
+  public async findOne(entity: Partial<Omit<T, "id">>): Promise<T | null> {
+    if (isEmpty(entity)) {
+      return null;
+    }
+    const e = await this.collection().findOne(entity);
+    return this.mapId(e) as T;
+  }
+
+  public async findOneById(id: string): Promise<T | null> {
     const entity = await this.collection().findOne(this.idFilter(id));
     return this.mapId(entity) as T;
   }
@@ -79,7 +88,7 @@ export class MongoDbRepository<T extends Identifiable> extends MongoDbBaseWithUt
   };
 
   public async update(entityId: string, entity: Omit<T, "id"> | Omit<T, any>): Promise<T | null> {
-    const e = await this.get(entityId);
+    const e = await this.findOneById(entityId);
     if (!e) {
       return null;
     }

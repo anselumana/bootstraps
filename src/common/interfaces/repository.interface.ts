@@ -2,8 +2,9 @@ import { Identifiable } from "../models/base.models";
 
 
 export interface IReadRepository<T extends Identifiable> {
-  list: () => Promise<T[]>;
-  get: (id: string) => Promise<T | null>;
+  find: (entity?: Partial<Omit<T, "id">>) => Promise<T[]>;
+  findOne: (entity: Partial<Omit<T, "id">>) => Promise<T | null>;
+  findOneById: (id: string) => Promise<T | null>;
 }
 
 export interface IWriteRepository<T extends Identifiable> {

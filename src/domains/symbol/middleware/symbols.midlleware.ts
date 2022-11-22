@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { validate } from '../../../common/validation/validation';
+import { validate } from '../../../common/validation/zod.validation';
 import { postSymbolSchema, putSymbolSchema } from '../models/symbol.dto.models';
 
 export const validatePost = (req: Request, res: Response, next: NextFunction) => {

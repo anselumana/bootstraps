@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectId } from "mongodb";
 import logger from "../logging/logger";
+import { isValidObjectId } from "../validation/mongodb.validation";
 
 
 const _logger = logger.child({});
@@ -17,14 +18,10 @@ export const httpLogger = (req: Request, res: Response, next: NextFunction) => {
 
 export const validateId = (req: Request, res: Response, next: NextFunction) => {
   const id = req?.params?.id;
-  if (!id) {
+  if (isValidObjectId(id)) {
     next();
   }
-  try {
-    new ObjectId(id);
-    next();
-  }
-  catch (err: any) {
+  else {
     res.status(404).send();
   }
 }
