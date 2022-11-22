@@ -1,11 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from "helmet";
 import cors from 'cors';
-import symbolsRouter from './domains/symbol/symbols.router';
-import { errorHandler } from './common/error/error.handler';
 import { httpLogger } from './common/middleware/common.middleware';
+import { errorHandler } from './common/error/error.handler';
 import * as swagger from "swagger-ui-express";
 import * as swaggerJson from "./swagger/static/swagger.json";
+import symbolsRouter from './domains/symbol/symbols.router';
 import exchangesRouter from './domains/exchange/exchanges.router';
 
 
