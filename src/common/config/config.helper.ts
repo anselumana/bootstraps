@@ -27,9 +27,9 @@ function validateFields(env: any) {
       reason: "must be a number",
     });
   }
-  if (!env.MONGO_CONNECTION) {
+  if (!env.MONGODB_CONNECTION) {
     errors.push({
-      field: "MONGO_CONNECTION",
+      field: "MONGODB_CONNECTION",
       reason: "required",
     });
   }
