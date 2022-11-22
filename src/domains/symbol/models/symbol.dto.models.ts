@@ -2,7 +2,12 @@ import { z } from "zod";
 import { symbolSchema } from "./symbol.model";
 
 
-// post request validation model
+// get
+export const getSymbolSchema = symbolSchema.omit({
+  userId: true,
+});
+
+// post
 export const postSymbolSchema = symbolSchema.omit({
   id: true,
   userId: true,
@@ -10,7 +15,7 @@ export const postSymbolSchema = symbolSchema.omit({
   updated: true,
 });
 
-// put request validation model
+// put
 export const putSymbolSchema = symbolSchema.omit({
   id: true,
   userId: true,
@@ -18,5 +23,8 @@ export const putSymbolSchema = symbolSchema.omit({
   updated: true,
 });
 
+
+
+export type GetSymbol = z.infer<typeof getSymbolSchema>;
 export type PostSymbol = z.infer<typeof postSymbolSchema>;
 export type PutSymbol = z.infer<typeof putSymbolSchema>;
