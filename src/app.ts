@@ -5,6 +5,7 @@ import { errorHandler } from './common/error/error.handler';
 import { httpLogger } from './common/middleware/common.middleware';
 import * as swagger from "swagger-ui-express";
 import * as swaggerJson from "./swagger/static/swagger.json";
+import exchangesRouter from './domains/exchange/exchanges.router';
 
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(httpLogger);
 app.use('/docs', swagger.serve, swagger.setup(swaggerJson));
 
 app.use("/symbols", symbolsRouter());
+app.use("/exchanges", exchangesRouter());
 app.get("/ping", (req: Request, res: Response) => res.status(200).json({ message: "pong" }));
 
 app.use((req: Request, res: Response, next: NextFunction) => res.status(404).send());
