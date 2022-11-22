@@ -2,8 +2,8 @@ import { z } from "zod";
 import { entitySchema } from "../../../common/models/base.models";
 
 const symbolBaseSchema = z.object({
-  baseAsset: z.string().min(3),
-  quoteAsset: z.string().min(3),
+  baseAsset: z.string().min(2),
+  quoteAsset: z.string().min(2),
 }).strict();
 
 export const symbolSchema = symbolBaseSchema.merge(entitySchema);
