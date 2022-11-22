@@ -14,7 +14,7 @@ export class ExchangesController {
     this.exchangesRepository = new ExchangesRepository();
   }
 
-  async list(req: Request<{}, GetExchange[], {}>, res: Response<GetExchange[]>, next: NextFunction) {
+  async find(req: Request<{}, GetExchange[], {}>, res: Response<GetExchange[]>, next: NextFunction) {
     try {
       const exchanges = await this.exchangesRepository.find();
       res.status(200).json(exchanges.map(s => ExchangesMapper.toGetDto(s)));

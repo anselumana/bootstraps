@@ -20,7 +20,7 @@ export class SymbolsController {
     this.exchangesRepository = new ExchangesRepository();
   }
 
-  async list(req: Request<{}, GetSymbol[], {}>, res: Response<GetSymbol[]>, next: NextFunction) {
+  async find(req: Request<{}, GetSymbol[], {}>, res: Response<GetSymbol[]>, next: NextFunction) {
     try {
       const symbols = await this.symbolsRepository.find();
       res.status(200).json(symbols.map(s => SymbolsMapper.toGetDto(s)));

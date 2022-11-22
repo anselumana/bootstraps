@@ -9,7 +9,7 @@ const symbolsRouter = (): Router => {
   const router = express.Router();
   router.route("/")
     .get(
-      controller.list.bind(controller),
+      controller.find.bind(controller),
     )
     .post(
       validatePost,
