@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import helmet from "helmet";
 import cors from 'cors';
 import symbolsRouter from './domains/symbol/symbols.router';
 import { errorHandler } from './common/error/error.handler';
@@ -11,6 +12,7 @@ import exchangesRouter from './domains/exchange/exchanges.router';
 const app = express();
 
 app.use(express.json());
+app.use(helmet());
 app.use(cors());
 app.use(httpLogger);
 
